@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, NestMiddleware, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable, Logger, NestMiddleware, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
@@ -9,10 +9,47 @@ import { UsersService } from 'src/Module/user/users.service';
 
 // @Injectable()
 export class JwtMiddleware implements NestMiddleware {
-  constructor(private readonly jwtService: JwtService,private userService: UsersService,
+  constructor(
   ) {}
 
   async use(req: Request, res: Response, next: NextFunction) {
+
+//     const start = Date.now();
+
+//     res.on('finish', () => {
+//       const end = Date.now();
+//       const duration = end - start;
+//       console.log(
+//         `${req.method} ${req.originalUrl} - ${res.statusCode} [${duration}ms]`
+//       );
+//     });
+
+// const startn = process.hrtime.bigint();
+// res.on('finish', () => {
+//   const duration = Number(process.hrtime.bigint() - startn) / 1_000_000;
+//   console.log(`Response Time: ${duration.toFixed(2)}ms`);
+// });
+
+// const startm = process.hrtime.bigint();
+
+// res.on('finish', () => {
+//   const end = process.hrtime.bigint();
+//   const durationMs = Number(end - startm) / 1_000_000;
+//   console.log(`Response Time: ${durationMs.toFixed(3)}ms`);
+// });
+
+const { method, originalUrl } = req
+const requestStartTime = new Date().getTime()
+res.on('finish', () => {
+  const { statusCode } = res
+
+  const responseTime = new Date().getTime()
+  const duration = responseTime - requestStartTime
+  const message = `${method} ${originalUrl} - ${statusCode} ${duration}ms`
+  console.log(message);
+})
+
+
     const authHeader = req.headers['authorization'];
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       throw new UnauthorizedException('No token provided');
@@ -40,7 +77,7 @@ export class JwtMiddleware implements NestMiddleware {
           // Match route to required roles
           const matchedRole = Object.keys(routeRole).find((key) => req.path.startsWith(key));
           const requiredRole = matchedRole ? routeRole[matchedRole] : undefined;
-          console.log(requiredRole);
+          console.log("Required Role: ",requiredRole);
     
           if (requiredRole && !requiredRole.includes(decoded.role)) {
             throw new ForbiddenException('Access denied');
