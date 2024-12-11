@@ -1,0 +1,8 @@
+1.npm install -save nestjs/cli
+2.npm i --save @nestjs/config dotenv
+3.npm install @nestjs/typeorm typeorm mssql
+4.npm install @nestjs/jwt passport-jwt @nestjs/passport bcryptjs
+5.npm i --save class-validator class-transformer
+6.npm i @nestjs/jwt passport passport-local passport-jwt bcrypt
+7.npm install @nestjs/platform-express multer
+8.npm install --save-dev @types/multer
