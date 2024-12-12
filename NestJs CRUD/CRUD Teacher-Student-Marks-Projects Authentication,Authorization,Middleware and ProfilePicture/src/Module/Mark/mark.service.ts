@@ -59,15 +59,6 @@ export class MarkService {
 
         const GRADE = this.calculateGrade(totalMarks);
 
-  
-
-        // // (await marks).TAMIL = TAMIL,
-        // (await marks).ENGLISH = ENGLISH,
-        // (await marks).MATHS = MATHS,
-        // (await marks).SCIENCE = SCIENCE,
-        // (await marks).SOCIAL_SCIENCE = SOCIAL_SCIENCE,
-        // (await marks).GRADE = GRADE,
-
         await this.markRepository.update(id,{
             STUDENT_ID,
             TAMIL,
@@ -119,14 +110,6 @@ export class MarkService {
                         name: teacher.NAME,
                     }
                     : null,
-            // project: projects
-            //         ?{
-            //             id: projects.id,
-            //             title: projects.TITLE,
-            //             project_subject: projects.PROJECT_SUBJECT,
-            //             project_mark: projects.PROJECT_MARKS,
-            //         }
-            //         :null,
 
         }
     }
@@ -168,26 +151,6 @@ export class MarkService {
             }
         }
 
-    // async getMarkProjectDetail(id: number): Promise<any> {
-    //     const marks = await this.markRepository.findOne({where: { id }});
-    //     if(!marks){
-    //         throw new NotFoundException(`mark with ID ${id} not found`);
-    //     }
-    //     const projects = marks.id
-    //         ? await this.projectRepository.findOne({where: {id: marks.id}})
-    //         : null;
-    //         return{
-    //             ...marks,
-    //             project: projects
-    //             ? { id: projects.id,
-    //                 title: projects.TITLE,
-    //                 project_subject: projects.PROJECT_SUBJECT,
-    //                 project_mark: projects.PROJECT_MARKS, 
-    //             }
-    //             : null,
-    //         }
-    // }
-
     async getAllDetail(): Promise<any>{
         const teachers = await this.teacherRepository.find();
         const students = await this.studentRepository.find();
@@ -196,12 +159,10 @@ export class MarkService {
         const combinedData = marks.map((marks) => {
             const student = students.find((s) => s.id === marks.id);
             const teacher = teachers.find((t) => t.id === student.CLASS_TEACHER);
-            // const project = projects.find((p) => p.id === marks.id);
             return {
                 ...marks,
                 student: student ? { id: student.id, ProfilePic: student.PROFILEPICTURE, name: student.NAME } : null,
                 teacher: teacher ? { id: teacher.id, ProfilePic: teacher.PROFILEPICTURE, name: teacher.NAME } : null,
-                // project: project ? { id: project.id, title: project.TITLE, project_subject: project.PROJECT_SUBJECT, project_mark: project.PROJECT_MARKS } : null,
             }
         });
 

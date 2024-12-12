@@ -42,15 +42,6 @@ export class ProjectController {
         }
     }
 
-    // @Get(':id/mark')
-    // async getProjectMarksById(@Param('id')id: number){
-    //     const data = await this.projectService.getProjectMarksDetail(id)
-    //     return{
-    //         success: true,
-    //         data
-    //     }
-    // }
-
     // @Roles(role.ADMIN,role.TEACHER,role.STUDENT)
     @Get('alldetail')
     async getProjectAllDetail(){

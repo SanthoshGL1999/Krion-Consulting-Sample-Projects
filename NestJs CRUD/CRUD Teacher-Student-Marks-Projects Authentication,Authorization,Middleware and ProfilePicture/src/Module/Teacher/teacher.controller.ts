@@ -65,15 +65,6 @@ export class TeacherController {
         };
     }
 
-    // @Get(':id/mark')
-    // async getTeacherMarkDetail(@Param('id')id: number) {
-    //     const data = await this.teacherService.getTeacherMarkDetail(id);
-    //     return{
-    //         success: true,
-    //         data,
-    //     };
-    // }
-
     // @Roles(role.ADMIN,role.TEACHER)
     @Get(':id/project')
     async getTeacherProjectDetail(@Param('id')id: number) {

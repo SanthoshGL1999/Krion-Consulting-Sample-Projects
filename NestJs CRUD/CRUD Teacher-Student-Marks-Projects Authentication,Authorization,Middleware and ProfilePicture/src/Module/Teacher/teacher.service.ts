@@ -32,9 +32,6 @@ export class TeacherService {
         }
         const student = await this.studentRepository.find({where: {CLASS_TEACHER: teacher.id}})
         
-        // const marks = teacher.id
-        // ? await this.markRepository.findOne({where: {id: teacher.id}})
-        // : null;
         const projects = teacher.id
         ? await this.projectRepository.findOne({where: {id: teacher.id}})
         : null;
@@ -51,17 +48,7 @@ export class TeacherService {
                             ProfilePic: student.PROFILEPICTURE,
                             name: student.NAME,
                         })),
-                        
-                    // mark: marks
-                    // ? {
-                    //         id: marks.id,
-                    //         tamil: marks.TAMIL,
-                    //         english: marks.ENGLISH,
-                    //         maths: marks.MATHS,
-                    //         science: marks.SCIENCE,
-                    //         social_science: marks.SOCIAL_SCIENCE,
-                    //     }
-                    //     :null,
+        
                     project: projects
                         ?{
                             id: projects.id,
@@ -90,30 +77,6 @@ export class TeacherService {
             })),
         }
     }
-
-    // async getTeacherMarkDetail(id: number): Promise<any> {
-    //     const teacher = await this.teacherRepository.findOne({where: { id }})
-    //     if(!teacher){
-    //         throw new NotFoundException(`teacher with ID ${id} not found`);
-    //     }
-    //     const marks = teacher.id
-    //     ? await this.markRepository.findOne({where:{id: teacher.id}})
-    //     : null;
-    //     return{
-    //         ...teacher,
-    //         mark: marks
-    //         ? {
-    //             id: marks.id,
-    //             tamil: marks.TAMIL,
-    //             english: marks.ENGLISH,
-    //             maths: marks.MATHS,
-    //             science: marks.SCIENCE,
-    //             social_science: marks.SOCIAL_SCIENCE,
-    //           }
-    //           : null
-    //     };
-        
-    // }
 
     async getTeacherProjectDetail(id: number): Promise<any> {
         const teacher = await this.teacherRepository.findOne({where: { id }})
@@ -150,12 +113,9 @@ export class TeacherService {
                 name: student.NAME,
                 project : projects.find((p) => p.id === student.id),
             }));
-            // const mark = marks.find((m) => m.id === teachers.id);
             return {
                 ...teachers,
                 student:studentData,
-                // mark: mark ? { id: mark.id, tamil: mark.TAMIL, english: mark.ENGLISH, maths: mark.MATHS, science: mark.SCIENCE, social_science: mark.SOCIAL_SCIENCE } : null,
-                // project: project ? { id: project.id, title: project.TITLE, project_subject: project.PROJECT_SUBJECT, project_mark: project.PROJECT_MARKS } : null,
             }
         });
 

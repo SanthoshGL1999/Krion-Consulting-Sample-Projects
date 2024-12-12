@@ -55,15 +55,6 @@ export class MarkController {
         }
     }
 
-    // @Get(':id/project')
-    // async getMarkProjectById(@Param('id')id: number){
-    //     const data = await this.marksService.getMarkProjectDetail(id)
-    //     return{
-    //         success: true,
-    //         data
-    //     }
-    // }
-
     // @Roles(role.ADMIN,role.TEACHER,role.STUDENT)
     @Get('alldetail')
     async getMarkAllDetail(){

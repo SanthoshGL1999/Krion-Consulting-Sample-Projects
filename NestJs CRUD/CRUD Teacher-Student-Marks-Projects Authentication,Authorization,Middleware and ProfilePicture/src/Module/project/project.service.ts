@@ -79,61 +79,36 @@ export class ProjectService {
         }
         : null,
     }
-}
-
-async getProjectTeacherDetail(id: number): Promise<any> {
+  }
+  
+  async getProjectTeacherDetail(id: number): Promise<any> {
     const projects = await this.projectRepository.findOne({where: { id }});
     if(!projects){
-        throw new NotFoundException(`mark with ID ${id} not found`);
+      throw new NotFoundException(`mark with ID ${id} not found`);
     }
     const teacher = projects.id
     ? await this.teacherRepository.findOne({where: {id: projects.id}})
     : null;
     return{
-        ...projects,
-        teacher: teacher
-        ? { id: teacher.id, ProfilePic: teacher.PROFILEPICTURE, name: teacher.NAME}
-        : null,
-        }
+      ...projects,
+      teacher: teacher
+      ? { id: teacher.id, ProfilePic: teacher.PROFILEPICTURE, name: teacher.NAME}
+      : null,
     }
-
-// async getProjectMarksDetail(id: number): Promise<any> {
-//     const projects = await this.projectRepository.findOne({where: { id }});
-//     if(!projects){
-//         throw new NotFoundException(`mark with ID ${id} not found`);
-//     }
-//     const marks = projects.id
-//         ? await this.markRepository.findOne({where: {id: projects.id}})
-//         : null;
-//         return{
-//             ...projects,
-//             mark: marks
-//             ? {
-//                 id: marks.id,
-//                 tamil: marks.TAMIL,
-//                 english: marks.ENGLISH,
-//                 maths: marks.MATHS,
-//                 science: marks.SCIENCE,
-//                 social_science: marks.SOCIAL_SCIENCE,
-//               }
-//               : null
-//         }
-// }
-
-async getAllDetail(): Promise<any>{
+  }
+  
+  async getAllDetail(): Promise<any>{
     const projects = await this.projectRepository.find();
     const teachers = await this.teacherRepository.find();
     const students = await this.studentRepository.find();
     const marks = await this.markRepository.find();
     const combinedData = projects.map((projects) => {
-        const student = students.find((s) => s.id === projects.id);
-        const teacher = teachers.find((t) => t.id === projects.id);
-        // const mark = marks.find((m) => m.id === projects.id);
+      const student = students.find((s) => s.id === projects.id);
+      const teacher = teachers.find((t) => t.id === projects.id);
         return {
-            ...projects,
-            student: student ? { id: student.id, ProfilePic: student.PROFILEPICTURE, name: student.NAME } : null,
-            teacher: teacher ? { id: teacher.id, ProfilePic: teacher.PROFILEPICTURE, name: teacher.NAME } : null,
-            // mark: mark ? { id: mark.id, tamil: mark.TAMIL, english: mark.ENGLISH, maths: mark.MATHS, science: mark.SCIENCE, social_science: mark.SOCIAL_SCIENCE } : null,
+          ...projects,
+          student: student ? { id: student.id, ProfilePic: student.PROFILEPICTURE, name: student.NAME } : null,
+          teacher: teacher ? { id: teacher.id, ProfilePic: teacher.PROFILEPICTURE, name: teacher.NAME } : null,
         }
     });
 
